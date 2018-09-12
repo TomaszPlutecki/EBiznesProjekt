@@ -7,6 +7,7 @@ import {
 import './App.css';
 import Products from './Products'
 import ProductForm from './ProductForm'
+import Category from './Category'
 
 class App extends Component {
 
@@ -18,11 +19,15 @@ class App extends Component {
                     <Link to="/products">Products</Link>
                 </li>
                 <li>
-                    <Link to="/productadd">Add Product</Link>
+                <Link to="/productadd">Add Product</Link>
+                </li>
+                <li>
+                    <Link to="/category">Add Category</Link>
                 </li>
             </ul>
         <Route path="/products" component={Products}/>
             <Route path="/productadd" component={ProductForm}/>
+            <Route path="/category" component={Category}/>
         </div>
     </Router>
   }

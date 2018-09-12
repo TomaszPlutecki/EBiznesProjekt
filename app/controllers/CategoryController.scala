@@ -12,6 +12,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
 
+  val headers = (
+    "Access-Control-Allow-Origin" -> "*",
+    "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS, DELETE, PUT",
+    "Access-Control-Allow-Headers" -> "Host, Connection, Accept, Authorization, Content-Type, X-Requested-With, User-Agent, Referer, Methods"
+  )
+
   val categoryForm: Form[CreateCategoryForm] = Form {
     mapping(
       "categoryName" -> nonEmptyText
@@ -23,12 +29,12 @@ class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: Message
     categoryForm.bindFromRequest.fold(
       _ => {
         Future.successful(
-          Ok(Json.obj("result" -> false))
+          Ok(Json.obj("result" -> false)).withHeaders(headers._1,headers._2,headers._3)
         )
       },
       category => {
         categoryRepo.create(category.name).map { _ =>
-          Ok(Json.obj("result" -> true))
+          Ok(Json.obj("result" -> true)).withHeaders(headers._1,headers._2,headers._3)
         }
       }
     )
@@ -36,7 +42,7 @@ class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: Message
 
   def getCategories = Action.async { implicit request =>
     categoryRepo.list().map { category =>
-      Ok(Json.toJson(category))
+      Ok(Json.toJson(category)).withHeaders(headers._1,headers._2,headers._3)
     }
   }
 

@@ -12,6 +12,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class OrderController @Inject()(orderRepository: OrderRepository, basketRepository: BasketRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
 
+  val headers = (
+    "Access-Control-Allow-Origin" -> "*",
+    "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS, DELETE, PUT",
+    "Access-Control-Allow-Headers" -> "Host, Connection, Accept, Authorization, Content-Type, X-Requested-With, User-Agent, Referer, Methods"
+  )
+
   val orderForm: Form[CreateOrderForm] = Form {
     mapping(
       "basketId" -> longNumber,
@@ -24,21 +30,21 @@ class OrderController @Inject()(orderRepository: OrderRepository, basketReposito
     orderForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          Ok(Json.obj("result" -> false))
+          Ok(Json.obj("result" -> false)).withHeaders(headers._1,headers._2,headers._3)
         )
       },
       order =>
         basketRepository.get(order.basketId).flatMap { basket =>
           orderRepository.create(basket.userId, order.paymentId, order.basketId)
         }.map { _ =>
-          Ok(Json.obj("result" -> true))
+          Ok(Json.obj("result" -> true)).withHeaders(headers._1,headers._2,headers._3)
         }
     )
   }
 
   def getOrders = Action.async {
     orderRepository.list().map { o =>
-      Ok(Json.toJson(o))
+      Ok(Json.toJson(o)).withHeaders(headers._1,headers._2,headers._3)
     }
   }
 

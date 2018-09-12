@@ -16,3 +16,15 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 .idea
+
+node_modules
+TEST-App.xml
+npm-debug.log
+
+# Build artifacts
+dist/main.js
+dist/main.css
+build/main.css
+build/main.js
+build/specs.js
+build/vendors.js

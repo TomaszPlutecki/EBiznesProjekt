@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Product from "./Product";
+import {Link} from "react-router-dom";
 
 class Products extends Component {
 
@@ -28,21 +30,26 @@ class Products extends Component {
         return (
             <div>
                 <h3 className="text-center"><b>Products</b></h3>
-                <hr/> {productList.map((product, index) => (
-                <div className="col-sm-6" key={index}>
-                    <div className="panel panel-primary">
-                        <div className="panel-body">
-                            <p align="center" id="productDesc">
-                                {product.description}
-                            </p>
-                            <p>
-                                <br></br>
-                                <i>Key words: {product.key_words}</i>
-                            </p>
+                <hr/>
+                {productList.map((product, index) => (
+                    <div className="col-sm-6" key={index}>
+                        <div className="panel panel-primary">
+                            <Link to={{pathname: "/product", state: {product: product}}}>link</Link>
+                            <div className="panel-body">
+                                <p align="center" id="productName">
+                                    {product.name}
+                                </p>
+                                <p align="center" id="productDesc">
+                                    {product.description}
+                                </p>
+                                <p>
+                                    <br></br>
+                                    <i>Key words: {product.key_words}</i>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
             </div>
         )
     }

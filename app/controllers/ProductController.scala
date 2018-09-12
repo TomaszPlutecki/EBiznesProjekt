@@ -42,12 +42,6 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   */
 
   def addProduct = Action.async { implicit request =>
-    // Bind the form first, then fold the result, passing a function to handle errors, and a function to handle succes.
-    var a: Seq[Category] = Seq[Category]()
-    val categories = categoryRepo.list().onComplete {
-      case Success(cat) => a = cat
-      case Failure(_) => print("fail")
-    }
 
     productForm.bindFromRequest.fold(
       // The error function. We return the index page with the error form, which will render the errors.
@@ -72,7 +66,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   /**
     * A REST endpoint that gets all the people as JSON.
     */
-  def getProducts = Action.async { implicit request =>
+  def getProducts() = Action.async { implicit request =>
     productsRepo.list().map { products =>
       Ok(Json.toJson(products))
     }

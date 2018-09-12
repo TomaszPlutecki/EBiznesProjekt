@@ -27,18 +27,36 @@ class BasketRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produ
   private val basket = TableQuery[BasketTable]
   private val product = TableQuery[ProductTable]
 
-  def create(user_id: Long): Future[Basket] = db.run {
+  def create(userId: Long): Future[Basket] = db.run {
     (basket.map(b => (b.user_id))
       returning basket.map(_.id)
       into { case ((user_id), id) => Basket(id, user_id) }
-      ) += (user_id)
+      ) += (userId)
   }
+
+
+  def createOrGetBasket(userId: Long): Future[Basket] = db.run {
+    basket.filter(_.user_id === userId).result.map { result =>
+      if (result.isEmpty)
+        create(userId)
+      else
+        Future.successful(result.head)
+    }
+  }.flatten
 
   /**
     * List all the people in the database.
     */
   def list(): Future[Seq[Basket]] = db.run {
     basket.result
+  }
+
+  def get(basketId: Long): Future[Basket] = db.run {
+    basket.filter(_.id === basketId).result.head
+  }
+
+  def getByUser(userId: Long): Future[Basket] = db.run {
+    basket.filter(_.user_id === userId).result.head
   }
 
   def remove(id: Long): Future[Int] = db.run {

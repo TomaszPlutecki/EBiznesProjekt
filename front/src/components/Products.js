@@ -1,46 +1,48 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 class Products extends Component {
 
     constructor() {
         super();
         this.state = {
-            products: [],
+            productList: [],
         };
     }
 
     componentDidMount() {
-        var url = "http://localhost:9000/getproducts"
 
-        fetch(url, {
-            mode: 'cors',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin':'http://localhost:3000',
-            },
-            method: 'GET',
-        })
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            let products = data.map((prod) => {
-                return (
-                    <div key={prod.id}>
-                        <div className="title">{prod.name}</div>
-                        <div>{prod.description}</div>
-                        <div>{prod.category}</div>
-                    </div>
-                )
-            })
-            this.setState({products: products})
-        })
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/getproducts'
+        }).then((res) => {
+            console.log(res.data)
+            this.setState({productList: res.data})
+        }).catch((err) => {
+            console.log('AXIOS addProduct FAILED', err)
+        });
     }
 
     render() {
+        const productList = this.state.productList;
         return (
-            <div className="products">
-                {this.state.products}
+            <div>
+                <h3 className="text-center"><b>Products</b></h3>
+                <hr/> {productList.map((product, index) => (
+                <div className="col-sm-6" key={index}>
+                    <div className="panel panel-primary">
+                        <div className="panel-body">
+                            <p align="center" id="productDesc">
+                                {product.description}
+                            </p>
+                            <p>
+                                <br></br>
+                                <i>Key words: {product.key_words}</i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ))}
             </div>
         )
     }

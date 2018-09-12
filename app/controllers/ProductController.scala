@@ -17,6 +17,12 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
                                  )(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
 
+  val headers = (
+    "Access-Control-Allow-Origin" -> "*",
+    "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS, DELETE, PUT",
+    "Access-Control-Allow-Headers" -> "Host, Connection, Accept, Authorization, Content-Type, X-Requested-With, User-Agent, Referer, Methods"
+  )
+
   /**
     * The mapping for the person form.
     */
@@ -49,14 +55,14 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       // a future because the person creation function returns a future.
       errorForm => {
         Future.successful(
-          Ok(Json.obj("result" -> false))
+          Ok(Json.obj("result" -> false)).withHeaders(headers._1,headers._2,headers._3)
         )
       },
       // There were no errors in the from, so create the person.
       product => {
         productsRepo.create(product.name, product.description, product.price, product.category, product.key_word).map { _ =>
           // If successful, we simply redirect to the index page.
-          Ok(Json.obj("result" -> true))
+          Ok(Json.obj("result" -> true)).withHeaders(headers._1,headers._2,headers._3)
         }
       }
     )
@@ -68,7 +74,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     */
   def getProducts() = Action.async { implicit request =>
     productsRepo.list().map { products =>
-      Ok(Json.toJson(products))
+      Ok(Json.toJson(products)).withHeaders(headers._1,headers._2,headers._3)
     }
   }
 }

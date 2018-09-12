@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class Product extends Component {
 
     render () {
-        const product = this.props.location.state
+        const product = this.props.location.state.product
         console.log(product)
         // const name = this.props.product.name;
         // const id = this.props.product.id;

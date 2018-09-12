@@ -34,7 +34,7 @@ class Products extends Component {
                 {productList.map((product, index) => (
                     <div className="col-sm-6" key={index}>
                         <div className="panel panel-primary">
-                            <Link to={{pathname: "/product", state: {product: product}}}>link</Link>
+                            <Link to={{pathname: "/product", state: {product: product}}}>{product.name}</Link>
                             <div className="panel-body">
                                 <p align="center" id="productName">
                                     {product.name}

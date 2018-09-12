@@ -84,7 +84,7 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, cate
       // returned id
       into { case ((name, description, price, category, key_words), id) => Product(id, name, description, price, category, key_words) }
       // And finally, insert the person into the database
-      ) += (name, description, price, category, key_words)
+      ) += ((name, description, price, category, key_words))
   }
 
   /**

@@ -31,20 +31,6 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   }
 
   /**
-    * The index action.
-    */
-  def index = Action.async { implicit request =>
-    val categories = categoryRepo.list()
-    categories.map(cat => Ok(views.html.index(productForm, cat)))
-
-    /*
-    .onComplete{
-    case Success(categories) => Ok(views.html.index(productForm,categories))
-    case Failure(t) => print("")
-  }*/
-  }
-
-  /**
     * The add person action.
     *
     * This is asynchronous, since we're invoking the asynchronous methods on PersonRepository.
@@ -69,14 +55,14 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       // a future because the person creation function returns a future.
       errorForm => {
         Future.successful(
-          Ok(views.html.index(errorForm, a))
+          Ok(Json.obj("result" -> false))
         )
       },
       // There were no errors in the from, so create the person.
       product => {
         productsRepo.create(product.name, product.description, product.price, product.category, product.key_word).map { _ =>
           // If successful, we simply redirect to the index page.
-          Redirect(routes.ProductController.index).flashing("success" -> "product.created")
+          Ok(Json.obj("result" -> true))
         }
       }
     )

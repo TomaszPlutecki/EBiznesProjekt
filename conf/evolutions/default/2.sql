@@ -49,6 +49,7 @@ CREATE TABLE "user" (
 );
 
 # --- !Downs
+
 drop table "basket" if exists;
 drop table "types" if exists;
 drop table "review" if exists;

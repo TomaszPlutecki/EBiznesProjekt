@@ -1,3 +1,5 @@
+import sbt.Resolver
+
 name := """play-scala-slick-example"""
 
 version := "2.6.x"
@@ -6,16 +8,60 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.4"
 
+resolvers += Resolver.jcenterRepo
+
 crossScalaVersions := Seq("2.11.12", "2.12.4")
 
-libraryDependencies += guice
-libraryDependencies += "com.typesafe.play" %% "play-slick" % "3.0.3"
-libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "3.0.3"
-libraryDependencies += "org.xerial"        %  "sqlite-jdbc" % "3.21.0"
-//libraryDependencies += "slick.driver.SQLiteDriver" %%
+libraryDependencies ++= Seq(
+  "com.mohiva" %% "play-silhouette" % "5.0.0",
+  "com.mohiva" %% "play-silhouette-password-bcrypt" % "5.0.0",
+  "com.mohiva" %% "play-silhouette-persistence" % "5.0.0",
+  "com.mohiva" %% "play-silhouette-crypto-jca" % "5.0.0",
+  "org.webjars" %% "webjars-play" % "2.6.1",
+  "org.webjars" % "bootstrap" % "3.3.7-1" exclude("org.webjars", "jquery"),
+  "org.webjars" % "jquery" % "3.2.1",
+  "net.codingwell" %% "scala-guice" % "4.1.0",
+  "com.iheart" %% "ficus" % "1.4.1",
+  "com.typesafe.play" %% "play-mailer" % "6.0.1",
+  "com.typesafe.play" %% "play-mailer-guice" % "6.0.1",
+  "com.enragedginger" %% "akka-quartz-scheduler" % "1.6.1-akka-2.5.x",
+  "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B3",
+  "com.mohiva" %% "play-silhouette-testkit" % "5.0.0" % "test",
+  "com.typesafe.play" %% "play-slick" % "3.0.3",
+  "com.typesafe.play" %% "play-slick-evolutions" % "3.0.3",
+  "org.xerial" % "sqlite-jdbc" % "3.21.0",
+  specs2 % Test,
+  ehcache,
+  guice,
+  filters
+)
 
 //libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 
 libraryDependencies += specs2 % Test
 
+routesGenerator := InjectedRoutesGenerator
+
+routesImport += "utils.route.Binders._"
+
+TwirlKeys.templateImports := Seq()
+
+scalacOptions ++= Seq(
+  "-deprecation", // Emit warning and location for usages of deprecated APIs.
+  "-feature", // Emit warning and location for usages of features that should be imported explicitly.
+  "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+  "-Xfatal-warnings", // Fail the compilation if there are any warnings.
+  //"-Xlint", // Enable recommended additional warnings.
+  "-Ywarn-adapted-args", // Warn if an argument list is modified to match the receiver.
+  "-Ywarn-dead-code", // Warn when dead code is identified.
+  "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
+  "-Ywarn-nullary-override", // Warn when non-nullary overrides nullary, e.g. def foo() over def foo.
+  "-Ywarn-numeric-widen", // Warn when numerics are widened.
+  // Play has a lot of issues with unused imports and unsued params
+  // https://github.com/playframework/playframework/issues/6690
+  // https://github.com/playframework/twirl/issues/105
+  "-Xlint:-unused,_"
+)
+
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"

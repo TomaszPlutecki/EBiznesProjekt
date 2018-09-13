@@ -66,13 +66,23 @@ export default class Product extends Component {
     }
 
 
+    addToCartButon() {
+        console.log("Islogged " + sessionStorage.getItem('isLogged'))
+        if (sessionStorage.getItem('isLogged') === "true")
+        {
+             return <div className="btn-group " role="group" aria-label="Basic example">
+                <a type="button" id={this.props.location.state.product.id} onClick={this.addToCart.bind(this, this.props.location.state.product.id)}
+                   className="btn btn-success">Add to Cart</a>
+            </div>
+        }
+    }
+
+
     render () {
         const coment = this.state.comentList;
         const product = this.props.location.state.product
-        console.log(product)
-        // const name = this.props.product.name;
-        // const id = this.props.product.id;
-        // const price = this.props.product.price;
+        const category = this.props.location.state.categorie
+
 
         return (
             <div>
@@ -83,12 +93,12 @@ export default class Product extends Component {
                 <p align="left" id="description">
                     {product.description}
                 </p>
-                <p align="center" id="category">
-                    {product.category}
+                <p align="left" id="price">
+                    Cena: {product.price} zł
                 </p>
-                {/*<p align="center" id="productPrice">*/}
-                {/*{price}*/}
-                {/*</p>*/}
+                <p align="left" id="category">
+                    Kategoria: {category.name}
+                </p>
 
 
                 <Form onSubmit={this.handleSubmit}>
@@ -102,10 +112,8 @@ export default class Product extends Component {
 
                     <Button type="submit" bsStyle="primary">Add Review</Button>
                 </Form>
+                {this.addToCartButon()}
 
-                <div className="btn-group " role="group" aria-label="Basic example">
-                    <a type="button"  id={product.id} onClick={this.addToCart.bind(this,product.id)} className="btn btn-success">Add to Cart</a>
-                </div>
 
                 <div>
                     <h3 className="text-center"><b>Comments</b></h3>

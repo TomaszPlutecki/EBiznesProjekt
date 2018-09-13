@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {Button, Navbar, Nav, NavItem, Thumbnail, MenuItem} from 'react-bootstrap';
 import {
     BrowserRouter as Router,
     Route,
@@ -15,15 +15,16 @@ class App extends Component {
 
     render() {
         return <Router>
-            <div id="menu">
+            <div id="menu" class="App-header">
 
-                <Navbar inverse collapseOnSelect>
+                <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <p align="center">
-                                But-UJ
-                            </p>
+                            <h1>
+                                <font color="white">But-UJ</font>
+                            </h1>
                         </Navbar.Brand>
+
                     </Navbar.Header>
                     <Nav>
                         <NavItem eventKey={1}>

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Form, FormGroup, Col} from 'react-bootstrap';
 import axios from 'axios';
 
 class Products extends Component {
@@ -38,41 +39,50 @@ class Products extends Component {
     }
 
     state = {
-        categoryList : []
+        categoryList: []
     }
 
     render() {
         const categories = this.state.categoryList;
         console.log(categories)
         return (
-            <form onSubmit={this.handleSubmit}>
-            <label htmlFor="name">Product name</label>
-            <input id="name" name="name" type="text" />
+            <Form onSubmit={this.handleSubmit}>
 
-            <label htmlFor="description">Description</label>
-            <input id="description" name="description" type="description" />
+                <FormGroup horizontal controlId="formHorizontalEmail">
+                    <label htmlFor="name">Product name</label>
+                    <input id="name" name="name" type="text"/>
+                </FormGroup>
 
-            <label htmlFor="price">Product price</label>
-            <input id="price" name="price" type="number" />
+                <FormGroup horizontal>
+                    <label htmlFor="description">Description</label>
+                    <input id="description" name="description" type="description"/>
+                </FormGroup>
 
-            <label htmlFor="category">Product category</label>
-            <input id="category" name="category" type="number" />
+                <FormGroup horizontal>
+                    <label htmlFor="price">Product price</label>
+                    <input id="price" name="price" type="number"/>
+                </FormGroup>
 
-            <label htmlFor="categoryv2">Product category v2</label>
-            <select  id="category" name="category">
-                {
-                    categories.map(cat => {
-                        return <option value={cat.id} key={cat.id}>{cat.name}</option>
-                    })
-                }
-            </select>
+                <FormGroup horizontal>
+                    <label htmlFor="category">Product category</label>
 
-            <label htmlFor="key_word">Product key_word</label>
-            <input id="key_word" name="key_word" type="text" />
+                    <select id="category" name="category">
+                        {
+                            categories.map(cat => {
+                                return <option value={cat.id} key={cat.id}>{cat.name}</option>
+                            })
+                        }
+                    </select>
+                </FormGroup>
 
-            <button>Add product</button>
-        </form>
-    );
+                <FormGroup horizontal>
+                    <label htmlFor="key_word">Product key_word</label>
+                    <input id="key_word" name="key_word" type="text"/>
+                </FormGroup>
+
+                <button>Add product</button>
+            </Form>
+        );
     }
 
 }

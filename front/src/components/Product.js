@@ -45,6 +45,25 @@ export default class Product extends Component {
 
     }
 
+    addToCart(id) {
+        var formData = new FormData();
+        var uId = sessionStorage.getItem('userId').toString();
+        console.log("dupa "+ id)
+        formData.append('userId', uId);
+        formData.append('productId', id);
+        formData.append('quantity', 1);
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:9000/addToBasket',
+            data: formData
+        }).then((res) => {
+            alert("dodano produkt do koszyka");
+        }).catch((err) => {
+            alert('AXIOS addProduct FAILED', err)
+        });
+    }
+
 
     render () {
         const coment = this.state.comentList;
@@ -84,7 +103,7 @@ export default class Product extends Component {
                 </Form>
 
                 <div className="btn-group " role="group" aria-label="Basic example">
-                    <a type="button"  id={product.id} className="btn btn-success">Add to Cart</a>
+                    <a type="button"  id={product.id} onClick={this.addToCart.bind(this,product.id)} className="btn btn-success">Add to Cart</a>
                 </div>
 
                 <div>

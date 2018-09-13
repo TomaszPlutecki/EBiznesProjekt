@@ -21,9 +21,9 @@ class BasketController @Inject()(basketRepository: BasketRepository, basketProdu
 
   val basketForm: Form[CreateBasketForm] = Form {
     mapping(
-      "userId" -> longNumber,
-      "productId" -> longNumber,
-      "quantity" -> number
+      "userId" -> nonEmptyText,
+      "productId" -> nonEmptyText,
+      "quantity" -> nonEmptyText
     )(CreateBasketForm.apply)(CreateBasketForm.unapply)
   }
 
@@ -36,7 +36,7 @@ class BasketController @Inject()(basketRepository: BasketRepository, basketProdu
       },
       basketRequest => {
         basketRepository.createOrGetBasket(basketRequest.userId).flatMap { basket =>
-          basketProductRepository.insertOrUpdate(basket.id, basketRequest.productId, basketRequest.quantity)
+          basketProductRepository.insertOrUpdate(basket.id, basketRequest.productId.toLong, basketRequest.quantity.toInt)
         }.map { _ =>
           Ok(Json.obj("result" -> true)).withHeaders(headers._1,headers._2,headers._3)
         }
@@ -45,7 +45,7 @@ class BasketController @Inject()(basketRepository: BasketRepository, basketProdu
   }
 
   def getBasket(userId: String) = Action.async { implicit request =>
-    basketRepository.getByUser(userId.toLong).flatMap { basket =>
+    basketRepository.getByUser(userId).flatMap { basket =>
       basketProductRepository.get(basket.id)
     }.map { products => Ok(Json.toJson(products)).withHeaders(headers._1,headers._2,headers._3) }
   }
@@ -54,5 +54,5 @@ class BasketController @Inject()(basketRepository: BasketRepository, basketProdu
 }
 
 
-case class CreateBasketForm(userId: Long, productId: Long, quantity: Int)
+case class CreateBasketForm(userId: String, productId: String, quantity: String)
 

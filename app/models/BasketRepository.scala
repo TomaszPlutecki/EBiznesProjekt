@@ -17,7 +17,7 @@ class BasketRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produ
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-    def user_id = column[Long]("user_id")
+    def user_id = column[String]("user_id")
 
     def * = (id, user_id) <> ((Basket.apply _).tupled, Basket.unapply)
   }
@@ -27,7 +27,7 @@ class BasketRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produ
   private val basket = TableQuery[BasketTable]
   private val product = TableQuery[ProductTable]
 
-  def create(userId: Long): Future[Basket] = db.run {
+  def create(userId: String): Future[Basket] = db.run {
     (basket.map(b => (b.user_id))
       returning basket.map(_.id)
       into { case ((user_id), id) => Basket(id, user_id) }
@@ -35,7 +35,7 @@ class BasketRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produ
   }
 
 
-  def createOrGetBasket(userId: Long): Future[Basket] = db.run {
+  def createOrGetBasket(userId: String): Future[Basket] = db.run {
     basket.filter(_.user_id === userId).result.map { result =>
       if (result.isEmpty)
         create(userId)
@@ -55,7 +55,7 @@ class BasketRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produ
     basket.filter(_.id === basketId).result.head
   }
 
-  def getByUser(userId: Long): Future[Basket] = db.run {
+  def getByUser(userId: String): Future[Basket] = db.run {
     basket.filter(_.user_id === userId).result.head
   }
 

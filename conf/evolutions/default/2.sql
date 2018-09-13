@@ -2,7 +2,7 @@
 
 create table "basket" (
   "id" integer not null primary key autoincrement,
-  "user_id" integer not null
+  "user_id" varchar(255) not null
 );
 
 create table "BasketProduct" (
@@ -33,7 +33,7 @@ create table "payment" (
 
 create table "order" (
   "id" integer not null primary key autoincrement,
-  "user_id" integer not null,
+  "user_id" varchar(255) not null,
   "basket_id" integer not null,
   "payment_id" integer not null,
   FOREIGN KEY(payment_id) REFERENCES payment(id)

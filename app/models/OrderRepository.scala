@@ -18,7 +18,7 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, paymen
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-    def user_id = column[Long]("user_id")
+    def user_id = column[String]("user_id")
 
     def basket_id = column[Long]("basket_id")
 
@@ -35,7 +35,7 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, paymen
   private val order = TableQuery[OrderTable]
   private val payment = TableQuery[PaymentTable]
 
-  def create(user_id: Long, payment_id: Long, basket_id: Long): Future[Order] = db.run {
+  def create(user_id: String, payment_id: Long, basket_id: Long): Future[Order] = db.run {
     (order.map(o => (o.user_id, o.basket_id, o.payment_id))
       returning order.map(_.id)
       into { case ((user_id, basket_id, payment_id), id) => Order(id, user_id, basket_id, payment_id) }

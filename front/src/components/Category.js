@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Header from "./Header";
 
 class Category extends Component {
 
@@ -25,12 +26,15 @@ class Category extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label htmlFor="categoryName">Category name</label>
-                <input id="categoryName" name="categoryName" type="text" />
+            <div>
+                <Header/>
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="categoryName">Category name</label>
+                    <input id="categoryName" name="categoryName" type="text"/>
 
-                <button>Add category</button>
-            </form>
+                    <button>Add category</button>
+                </form>
+            </div>
         );
     }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Button, Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {Link} from "react-router-dom";
+import Header from "./Header";
 
 
 export default class Product extends Component {
@@ -55,6 +56,7 @@ export default class Product extends Component {
 
         return (
             <div>
+                <Header/>
                 <p align="center" id="productId">
                     {product.name}
                 </p>

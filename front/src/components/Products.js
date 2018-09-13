@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Product from "./Product";
 import {Link} from "react-router-dom";
+import Header from "./Header";
 
 class Products extends Component {
 
@@ -29,6 +30,7 @@ class Products extends Component {
         const productList = this.state.productList;
         return (
             <div>
+                <Header/>
                 <h3 className="text-center"><b>Products</b></h3>
                 <hr/>
                 {productList.map((product, index) => (

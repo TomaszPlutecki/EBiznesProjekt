@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Form, FormGroup, Col} from 'react-bootstrap';
 import axios from 'axios';
+import Header from "./Header";
 
 class Products extends Component {
 
@@ -46,43 +47,45 @@ class Products extends Component {
         const categories = this.state.categoryList;
         console.log(categories)
         return (
+            <div>
+                <Header/>
+                <Form onSubmit={this.handleSubmit}>
+                    <br/>
+                    <FormGroup horizontal controlId="formHorizontalEmail">
+                        <label htmlFor="name">Product name</label>
+                        <input id="name" name="name" type="text"/>
+                    </FormGroup>
 
-            <Form onSubmit={this.handleSubmit}>
-                <br />
-                <FormGroup horizontal controlId="formHorizontalEmail">
-                    <label htmlFor="name">Product name</label>
-                    <input id="name" name="name" type="text"/>
-                </FormGroup>
+                    <FormGroup horizontal>
+                        <label htmlFor="description">Description</label>
+                        <input id="description" name="description" type="description"/>
+                    </FormGroup>
 
-                <FormGroup horizontal>
-                    <label htmlFor="description">Description</label>
-                    <input id="description" name="description" type="description"/>
-                </FormGroup>
+                    <FormGroup horizontal>
+                        <label htmlFor="price">Product price</label>
+                        <input id="price" name="price" type="number"/>
+                    </FormGroup>
 
-                <FormGroup horizontal>
-                    <label htmlFor="price">Product price</label>
-                    <input id="price" name="price" type="number"/>
-                </FormGroup>
+                    <FormGroup horizontal>
+                        <label htmlFor="category">Product category</label>
 
-                <FormGroup horizontal>
-                    <label htmlFor="category">Product category</label>
+                        <select id="category" name="category">
+                            {
+                                categories.map(cat => {
+                                    return <option value={cat.id} key={cat.id}>{cat.name}</option>
+                                })
+                            }
+                        </select>
+                    </FormGroup>
 
-                    <select id="category" name="category">
-                        {
-                            categories.map(cat => {
-                                return <option value={cat.id} key={cat.id}>{cat.name}</option>
-                            })
-                        }
-                    </select>
-                </FormGroup>
+                    <FormGroup horizontal>
+                        <label htmlFor="key_word">Product key_word</label>
+                        <input id="key_word" name="key_word" type="text"/>
+                    </FormGroup>
 
-                <FormGroup horizontal>
-                    <label htmlFor="key_word">Product key_word</label>
-                    <input id="key_word" name="key_word" type="text"/>
-                </FormGroup>
-
-                <button>Add product</button>
-            </Form>
+                    <button>Add product</button>
+                </Form>
+            </div>
         );
     }
 

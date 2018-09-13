@@ -32,46 +32,69 @@ export default class Header extends Component {
         }
     }
 
-
     render() {
-       return  <Navbar>
-            <Navbar.Header>
-                <Navbar.Brand>
-                    <h1>
-                        <Link to={{pathname:"/"}}>But-uj</Link>
-                    </h1>
-                </Navbar.Brand>
+        if (sessionStorage.getItem('isLogged') === "true") {
+            return(
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <h1>
+                                <Link to={{pathname:"/"}}>But-uj</Link>
+                            </h1>
+                        </Navbar.Brand>
 
-            </Navbar.Header>
-            <Nav>
-                <NavItem eventKey={1}>
-                    <Link className="link" to="/products"><Button bsStyle="primary">
-                        Products</Button>
-                    </Link>
-                </NavItem>
-                <NavItem eventKey={2}>
-                    <Link className="link" to="/productadd">
-                        <Button bsStyle="primary">Add Product
-                        </Button>
-                    </Link>
-                </NavItem>
-                <NavItem eventKey={2}>
-                    <Link className="link" to="/category">
-                        <Button bsStyle="primary">
-                            Add Category
-                        </Button>
-                    </Link>
-                </NavItem>
-                <NavItem eventKey={2}>
-                    <Link className="link" to="/basket">
-                        <Button bsStyle="primary">
-                            Basket
-                        </Button>
-                    </Link>
-                </NavItem>
-                {this.isLogged()}
-            </Nav>
-        </Navbar>
+                    </Navbar.Header>
+                    <Nav>
+                        <NavItem eventKey={1}>
+                            <Link className="link" to="/products"><Button bsStyle="primary">
+                                Products</Button>
+                            </Link>
+                        </NavItem>
+                        <NavItem eventKey={2}>
+                            <Link className="link" to="/productadd">
+                                <Button bsStyle="primary">Add Product
+                                </Button>
+                            </Link>
+                        </NavItem>
+                        <NavItem eventKey={2}>
+                            <Link className="link" to="/category">
+                                <Button bsStyle="primary">
+                                    Add Category
+                                </Button>
+                            </Link>
+                        </NavItem>
+                        <NavItem eventKey={2}>
+                            <Link className="link" to="/basket">
+                                <Button bsStyle="primary">
+                                    Basket
+                                </Button>
+                            </Link>
+                        </NavItem>
+                        {this.isLogged()}
+                    </Nav>
+                </Navbar>)
+
+        } else {
+            return(
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <h1>
+                                <Link to={{pathname:"/"}}>But-uj</Link>
+                            </h1>
+                        </Navbar.Brand>
+
+                    </Navbar.Header>
+                    <Nav>
+                        <NavItem eventKey={1}>
+                            <Link className="link" to="/products"><Button bsStyle="primary">
+                                Products</Button>
+                            </Link>
+                        </NavItem>
+                        {this.isLogged()}
+                    </Nav>
+                </Navbar>)
+        }
     }
 
 }

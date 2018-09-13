@@ -1,0 +1,15 @@
+.hide {
+ display:none;
+}
+
+.comment {
+  margin: auto;
+  width: 50%;
+  border: 3px solid black;
+  padding: 10px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

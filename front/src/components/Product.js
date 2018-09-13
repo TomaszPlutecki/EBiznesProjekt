@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './Product.css';
 import {Button, Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import Header from "./Header";
@@ -97,7 +98,7 @@ export default class Product extends Component {
                         <FormControl id="reviewText" name="reviewText" type="text" componentClass="textarea" placeholder="review" />
                     </FormGroup>
 
-                    <select className="form-control" id="productId" name="productId" ><option value={product.id} >Product id = {product.id}</option></select>
+                    {<select className="form-control" className="hide" id="productId" name="productId" ><option value={product.id} >Product id = {product.id}</option></select>}
 
                     <Button type="submit" bsStyle="primary">Add Review</Button>
                 </Form>
@@ -110,9 +111,9 @@ export default class Product extends Component {
                     <h3 className="text-center"><b>Comments</b></h3>
 
                     {coment.map((comment, index) => (
-                        <div className="col-sm-6" key={index}>
+                        <div className="col-sm-12" key={index}>
                             <div className="panel panel-primary">
-                                <div className="panel-body">
+                                <div className="panel-body comment">
                                     <p align="left" id="productDesc">
                                         {comment.review_text}
                                     </p>

@@ -7,7 +7,7 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class BasketProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class BasketProductRepository @Inject()(productRepository: ProductRepository, dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -26,7 +26,12 @@ class BasketProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider
     def * = (id, basket_id, product_id, quantity) <> ((BasketProduct.apply _).tupled, BasketProduct.unapply)
   }
 
+  import productRepository.ProductTable
+
   private val orderProducts = TableQuery[BasketProductTable]
+
+  private val productTale = TableQuery[ProductTable]
+
 
   def insert(basketId: Long, productId: Long, quantity: Int) = db.run {
     (orderProducts.map(o => (o.basket_id, o.product_id, o.quantity))
@@ -49,8 +54,12 @@ class BasketProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider
     }
   }.flatten
 
-  def get(basketId: Long): Future[Seq[BasketProduct]] = db.run {
-    orderProducts.filter(_.basket_id === basketId).result
+  def get(basketId: Long): Future[Seq[BasketProductWithName]] = db.run {
+    (orderProducts.filter(_.basket_id === basketId) joinLeft productTale on (_.product_id === _.id)).result.map{ joined =>
+      joined.map{ a =>
+        BasketProductWithName(a._1.id,a._1.basketId,a._2.get.name,a._1.quantity)
+      }
+    }
   }
 
 

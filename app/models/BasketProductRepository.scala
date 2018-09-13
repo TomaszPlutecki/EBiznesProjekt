@@ -57,7 +57,7 @@ class BasketProductRepository @Inject()(productRepository: ProductRepository, db
   def get(basketId: Long): Future[Seq[BasketProductWithName]] = db.run {
     (orderProducts.filter(_.basket_id === basketId) joinLeft productTale on (_.product_id === _.id)).result.map{ joined =>
       joined.map{ a =>
-        BasketProductWithName(a._1.id,a._1.basketId,a._2.get.name,a._1.quantity)
+        BasketProductWithName(a._1.id,a._1.basketId,a._2.get.name,a._1.quantity, a._2.get.price)
       }
     }
   }

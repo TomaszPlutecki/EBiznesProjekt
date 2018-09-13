@@ -29,6 +29,7 @@ class Category extends Component {
             <div>
                 <Header/>
                 <form onSubmit={this.handleSubmit}>
+                    <br/>
                     <label htmlFor="categoryName">Category name</label>
                     <input id="categoryName" name="categoryName" type="text"/>
 

@@ -9,6 +9,7 @@ import ProductForm from "./components/ProductForm";
 import Category from "./components/Category";
 import Product from "./components/Product";
 import Basket from "./components/Basket";
+import Order from "./components/Order";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -19,6 +20,7 @@ ReactDOM.render(
             <Route path="/category" component={Category}/>
             <Route path="/product" component={Product}/>
             <Route path="/basket" component={Basket}/>
+            <Route path="/order" component={Order}/>
         </div>
     </BrowserRouter>
     , document.getElementById('root'));

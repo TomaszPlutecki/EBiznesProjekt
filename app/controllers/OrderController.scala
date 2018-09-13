@@ -48,6 +48,12 @@ class OrderController @Inject()(orderRepository: OrderRepository, basketReposito
     }
   }
 
+  def getOrderDetails(userId: String) = Action.async{
+    orderRepository.getOrderForUserResult(userId).map{ o =>
+      Ok(Json.toJson(o)).withHeaders(headers._1,headers._2,headers._3)
+    }
+  }
+
 }
 
 case class CreateOrderForm(basketId: Long, paymentId: Long)

@@ -69,6 +69,13 @@ export default class Header extends Component {
                         </Button>
                     </Link>
                 </NavItem>
+                <NavItem eventKey={2}>
+                    <Link className="link" to="/order">
+                        <Button bsStyle="primary">
+                            Order
+                        </Button>
+                    </Link>
+                </NavItem>
                 {this.isLogged()}
             </Nav>
         </Navbar>

@@ -24,16 +24,17 @@ POST        /password/change                controllers.ChangePasswordController
 GET         /account/email/:email           controllers.ActivateAccountController.send(email: String)
 GET         /account/activate/:token        controllers.ActivateAccountController.activate(token: java.util.UUID)
 
-GET         /getproducts                controllers.ProductController.getProducts
-POST        /addproduct                 controllers.ProductController.addProduct
-GET         /getcategories              controllers.CategoryController.getCategories
-POST        /addcategory                controllers.CategoryController.addCategory
-GET         /getbasket/:id              controllers.BasketController.getBasket(id)
-POST        /addToBasket                controllers.BasketController.addToBasket
-GET         /getorders                  controllers.OrderController.getOrders
-POST        /addorder                   controllers.OrderController.addOrder
-POST        /addReview                  controllers.ReviewController.addReview
-GET         /getReview/:id              controllers.ReviewController.getReview(id)
+GET         /getproducts                    controllers.ProductController.getProducts
+POST        /addproduct                     controllers.ProductController.addProduct
+GET         /getcategories                  controllers.CategoryController.getCategories
+POST        /addcategory                    controllers.CategoryController.addCategory
+GET         /getbasket/:id                  controllers.BasketController.getBasket(id)
+POST        /addToBasket                    controllers.BasketController.addToBasket
+GET         /getorders                      controllers.OrderController.getOrders
+GET         /getorders/:userId              controllers.OrderController.getOrderDetails(userId)
+POST        /addorder                       controllers.OrderController.addOrder
+POST        /addReview                      controllers.ReviewController.addReview
+GET         /getReview/:id                  controllers.ReviewController.getReview(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                   controllers.Assets.versioned(file)

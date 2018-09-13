@@ -8,6 +8,7 @@ class Basket extends Component {
         super();
         this.state = {
             basketProducts: [],
+            basketId: 0
         };
     }
 
@@ -17,15 +18,32 @@ class Basket extends Component {
             method: 'get',
             url: 'http://localhost:9000/getbasket/' + sessionStorage.getItem('userId').toString()
         }).then((res) => {
-            console.log(res.data)
-            this.setState({basketProducts: res.data})
+            this.setState({basketProducts: res.data, basketId: res.data[0].basketId})
         }).catch((err) => {
             console.log('AXIOS addProduct FAILED', err)
         });
     }
 
+    createOrder(basketId) {
+        var formData = new FormData();
+        console.log("Tworze order " + basketId)
+        formData.append('basketId', basketId);
+        formData.append('paymentId', 1);
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:9000/addorder',
+            data: formData
+        }).then((res) => {
+            alert("stworzono zamówienie");
+        }).catch((err) => {
+            alert('AXIOS addProduct FAILED', err)
+        });
+    }
+
     render() {
         const basketProductsList = this.state.basketProducts;
+        const basketId = this.state.basketId
         return (
             <div>
                 <Header/>
@@ -46,6 +64,9 @@ class Basket extends Component {
                         </div>
                     </div>
                 ))}
+                <div className="btn-group " role="group" aria-label="Basic example">
+                    <a type="button"  id={1} onClick={this.createOrder.bind(this,basketId)} className="btn btn-success">CreateOrder</a>
+                </div>
             </div>
         )
     }

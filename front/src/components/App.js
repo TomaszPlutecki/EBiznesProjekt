@@ -10,8 +10,60 @@ import Products from './Products'
 import ProductForm from './ProductForm'
 import Category from './Category'
 import Product from "./Product";
+import axios from 'axios';
 
 class App extends Component {
+
+    async User() {
+        try {
+
+            const {data: response} = await axios.get('/getUser');
+            sessionStorage.setItem('isLogged', response.log);
+            sessionStorage.setItem('userId', response.userId);
+            sessionStorage.setItem('email', response.email);
+            sessionStorage.setItem('fullName', response.fullName);
+
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    componentWillMount() {
+        this.User();
+    }
+
+    clearStorage(e) {
+        sessionStorage.clear();
+    };
+
+    isLogged() {
+        var isLogged = sessionStorage.getItem('isLogged');
+        if (isLogged === "true") {
+            return (
+
+                    <a className="link " onClick={this.clearStorage.bind} href="http://localhost:9000/signOut">
+                        <button className="btn btn-primary">
+                            Log Out
+                        </button>
+                    </a>
+
+                // <div>
+                //     <a className="nav-link " onClick={this.clearStorage.bind} href="http://localhost:9000/signOut">
+                //         Wyloguj
+                //     </a>
+                // </div>
+            )
+        } else {
+            return (
+                    <a className="link " href="http://localhost:9000/signIn">
+                        <button class="btn btn-primary">
+                            Log in
+                        </button>
+                    </a>
+            )
+        }
+    }
+
 
     render() {
         return <Router>
@@ -45,6 +97,7 @@ class App extends Component {
                                 </Button>
                             </Link>
                         </NavItem>
+                        {this.isLogged()}
                     </Nav>
                 </Navbar>
 

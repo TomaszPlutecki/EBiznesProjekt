@@ -46,33 +46,33 @@ class Products extends Component {
         console.log(categories)
         return (
             <form onSubmit={this.handleSubmit}>
-                <label htmlFor="name">Product name</label>
-                <input id="name" name="name" type="text" />
+            <label htmlFor="name">Product name</label>
+            <input id="name" name="name" type="text" />
 
-                <label htmlFor="description">Description</label>
-                <input id="description" name="description" type="description" />
+            <label htmlFor="description">Description</label>
+            <input id="description" name="description" type="description" />
 
-                <label htmlFor="price">Product price</label>
-                <input id="price" name="price" type="number" />
+            <label htmlFor="price">Product price</label>
+            <input id="price" name="price" type="number" />
 
-                <label htmlFor="category">Product category</label>
-                <input id="category" name="category" type="number" />
+            <label htmlFor="category">Product category</label>
+            <input id="category" name="category" type="number" />
 
-                <label htmlFor="categoryv2">Product category v2</label>
-                <select  id="category" name="category">
-                    {
-                        categories.map(cat => {
-                            return <option value={cat.id} key={cat.id}>{cat.name}</option>
-                        })
-                    }
-                </select>
+            <label htmlFor="categoryv2">Product category v2</label>
+            <select  id="category" name="category">
+                {
+                    categories.map(cat => {
+                        return <option value={cat.id} key={cat.id}>{cat.name}</option>
+                    })
+                }
+            </select>
 
-                <label htmlFor="key_word">Product key_word</label>
-                <input id="key_word" name="key_word" type="text" />
+            <label htmlFor="key_word">Product key_word</label>
+            <input id="key_word" name="key_word" type="text" />
 
-                <button>Add product</button>
-            </form>
-        );
+            <button>Add product</button>
+        </form>
+    );
     }
 
 }

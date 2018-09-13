@@ -6,18 +6,26 @@ import {Link} from "react-router-dom";
 
 export default class Product extends Component {
 
-    constructor(props){
-        super(props);
+    constructor() {
+        super();
+        this.state = {
+            comentList : []
+        };
+    }
+    componentDidMount() {
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/getReview/'+ this.props.id
+            url: 'http://localhost:9000/getReview/'+ this.props.location.state.product.id
         }).then((res) => {
             this.setState({comentList: res.data})
         }).catch((err) => {
             console.log('AXIOS addProduct FAILED', err)
         });
+
+
     }
+
 
     handleSubmit(event) {
         event.preventDefault();
@@ -36,11 +44,9 @@ export default class Product extends Component {
 
     }
 
-    state = {
-        commentList : []
-    }
 
     render () {
+        const coment = this.state.comentList;
         const product = this.props.location.state.product
         console.log(product)
         // const name = this.props.product.name;
@@ -52,7 +58,7 @@ export default class Product extends Component {
                 <p align="center" id="productId">
                     {product.name}
                 </p>
-                <p align="center" id="description">
+                <p align="left" id="description">
                     {product.description}
                 </p>
                 <p align="center" id="category">
@@ -72,16 +78,27 @@ export default class Product extends Component {
 
                     <select className="form-control" id="productId" name="productId" ><option value={product.id} >Product id = {product.id}</option></select>
 
-                    <Button type="submit" bsStyle="primary">Add</Button>
+                    <Button type="submit" bsStyle="primary">Add Review</Button>
                 </Form>
 
                 <div className="btn-group " role="group" aria-label="Basic example">
-                    <a type="button"  id={product.id} className="btn btn-success">Dodaj do koszyka</a>
+                    <a type="button"  id={product.id} className="btn btn-success">Add to Cart</a>
                 </div>
 
                 <div>
                     <h3 className="text-center"><b>Comments</b></h3>
-                    <hr/>
+
+                    {coment.map((comment, index) => (
+                        <div className="col-sm-6" key={index}>
+                            <div className="panel panel-primary">
+                                <div className="panel-body">
+                                    <p align="left" id="productDesc">
+                                        {comment.review_text}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
 
                 </div>
 

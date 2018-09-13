@@ -46,8 +46,9 @@ class Products extends Component {
         const categories = this.state.categoryList;
         console.log(categories)
         return (
-            <Form onSubmit={this.handleSubmit}>
 
+            <Form onSubmit={this.handleSubmit}>
+                <br />
                 <FormGroup horizontal controlId="formHorizontalEmail">
                     <label htmlFor="name">Product name</label>
                     <input id="name" name="name" type="text"/>

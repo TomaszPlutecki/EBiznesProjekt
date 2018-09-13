@@ -39,7 +39,7 @@ class Products extends Component {
                                 <p align="center" id="productName">
                                     {product.name}
                                 </p>
-                                <p align="center" id="productDesc">
+                                <p align="left" id="productDesc">
                                     {product.description}
                                 </p>
                                 <p>
